@@ -20,30 +20,32 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t quiz-app .'
+                sh 'docker build -t riddle-app .'
             }
         }
 
         stage('Run') {
             steps {
                 echo 'Running container...'
-		sh 'docker rm -f quiz-app-test || true'
-                sh 'docker run -d --name quiz-app-test -p 5000:5000 quiz-app'
+		sh 'docker rm -f riddle-app-test || true'
+                sh 'docker run -d --name riddle-app-test -p 5000:5000 riddle-app'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Testing API...'
-		sh 'sleep 3'
+		sh 'sleep 5'
                 sh 'curl http://localhost:5000/api/health'
+		sh 'curl -f http://localhost:5000/'
             }
         }
     }
 
     post {
 	always {
-	    sh 'docker rm -f quiz-app-test || true'
+	    sh 'docker logs riddle-app-test || true'
+	    sh 'docker rm -f riddle-app-test || true'
 	}
     }
 }
