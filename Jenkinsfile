@@ -4,29 +4,46 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-username/your-repo.git'
+                checkout scm
             }
         }
+	
+	stage('Verify Files') {
+	    steps {
+		sh 'ls -la'
+		sh 'test -f Dockerfile'
+		sh 'test -f requirements.txt'
+		sh 'test -f app.py'
+	    }
+	}
 
         stage('Build') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t flask-app .'
+                sh 'docker build -t quiz-app .'
             }
         }
 
         stage('Run') {
             steps {
                 echo 'Running container...'
-                sh 'docker run -d -p 8081:8080 flask-app'
+		sh 'docker rm -f quiz-app-test || true'
+                sh 'docker run -d --name quiz-app-test -p 5000:5000 quiz-app'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Testing API...'
-                sh 'curl http://localhost:8081/api/health'
+		sh 'sleep 3'
+                sh 'curl http://localhost:5000/api/health'
             }
         }
+    }
+
+    post {
+	always {
+	    sh 'docker rm -f quiz-app-test || true'
+	}
     }
 }
