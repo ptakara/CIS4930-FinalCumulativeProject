@@ -4,6 +4,7 @@ app = Flask(__name__)
 app.secret_key = "secret123"
 
 # Health check (for Jenkins/Docker)
+@app.route("/api/health/")
 @app.route("/api/health")
 def health():
     return jsonify({"status": "ok"}), 200
