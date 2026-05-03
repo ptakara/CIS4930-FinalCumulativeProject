@@ -28,12 +28,12 @@ Pipeline stages:
 ## Setup Instructions
 1. Clone the repository from GitHub
 2. Start up a Jenkins container
-   - Ensure Docker is installed via 'docker --version'
-   - 'docker pull jenkins/jenkins:lts'
-   - Create a volume via ‘docker volume create jenkins_home’
-   - ‘docker run -d --name jenkins -u root -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:lts’
-3. Make sure Jenkins has Docker installed via ‘docker exec -u root -it jenkins bash’, then within the shell ‘apt-get update’ and ‘apt-get install -y docker.io’.
+   - Ensure Docker is installed via `docker --version`
+   - `docker pull jenkins/jenkins:lts`
+   - Create a volume via `docker volume create jenkins_home`
+   - `docker run -d --name jenkins -u root -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:lts`
+3. Make sure Jenkins has Docker installed via `docker exec -u root -it jenkins bash`, then within the shell `apt-get update` and `apt-get install -y docker.io`.
 4. Configure Pipeline Job
-   - Ensure pipeline definition set to ‘pipeline script from SCM’
+   - Ensure pipeline definition set to `pipeline script from SCM`
    - Set to Git with repository link and branch properly specified
 5. Build and run pipeline
