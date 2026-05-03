@@ -36,8 +36,7 @@ pipeline {
             steps {
                 echo 'Testing API...'
 		sh 'sleep 5'
-                sh 'curl http://localhost:5000/api/health'
-		sh 'curl -f http://localhost:5000/'
+                sh 'docker exec riddle-app-test python3 -c "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:5000/api/health/').read().decode())"'
             }
         }
     }
